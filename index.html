@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://szg-vasvari.cms.intezmeny.edir.hu/uploads/logo_cea7af9c46.svg" type="image/x-icon">
+    <title>Óracsere kereső</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: radial-gradient(at right bottom, aqua, yellow);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            border: 3px solid black;
+            border-radius: 10px;
+            padding: 30px;
+            background-image: radial-gradient(at left top, aqua, yellow);
+            position: relative;
+            bottom: 100px;
+            
+        }
+        .container div {
+            display: flex;
+            gap: 30px;
+        }
+        button {
+            border: none;
+            cursor: pointer;
+        }
+        span {
+            text-align: center;
+            min-width: 200px;
+            max-width: 250px;
+        }
+        button, span {
+            color: white;
+            padding: 15px 32px;
+            font-size: large;
+            border-radius: 5px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+        }
+        #today, #green {
+            background-color: #04AA6D;
+        }
+        #tomorrow, #blue {
+            background-color: #008CBA;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        a:hover,button:hover{
+            color: black;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <button id="today" onclick="ClickEvent(0)">Ma</button>
+            <button id="tomorrow" onclick="ClickEvent(1)">Holnap</button>
+        </div>
+        <span>Nincs adat</span>
+    </div>
+
+    <script>
+        const info = document.querySelector("span");
+
+        if (localStorage.getItem("day") != null && localStorage.getItem("id") != null){
+            GetLink(parseInt(localStorage.getItem("day")));
+            info.id = localStorage.getItem("id");
+        }
+
+        function ClickEvent(day){
+            day == 0 ? info.id = "green" : info.id = "blue";
+
+            localStorage.setItem("id", info.id);
+            localStorage.setItem("day", day)
+
+            GetLink(day);
+        }
+
+        function GetDay(day){
+            let today = new Date();
+
+            switch (day){
+                case 1:
+                    let tomorrow = new Date(today);
+                    tomorrow.setDate(today.getDate() + 1);
+                    return tomorrow.toLocaleDateString();
+
+                default:
+                    return today.toLocaleDateString();
+            }
+        }
+
+        function GetLink(day){
+            fetch("https://corsproxy.io/?url=https://www.vasvari.hu/p/oracserek")
+            .then(response => response.text())
+            .then(html => {
+                // Ideiglenes DOM elem létrehozása a HTML-ből
+                let doc = new DOMParser().parseFromString(html, "text/html");
+
+                let link = Array.from(doc.querySelectorAll("a")).find(link => link.textContent.includes(GetDay(day)))
+
+                if (link){
+                    info.innerHTML = `<a href="${link.href}">${link.textContent}</a>`;
+                }
+                else{
+                    info.textContent = `Nincs óracsere ezen a napon: ${GetDay(day)}`;
+                }
+                
+            })
+            .catch(error => info.textContent = `Hiba történt: ${error.message}`);
+        }
+    </script>
+</body>
+</html>
