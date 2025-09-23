@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: radial-gradient(at right bottom, aqua, yellow);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    border: 3px solid black;
+    border-radius: 10px;
+    padding: 30px;
+    background-image: radial-gradient(at left top, aqua, yellow);
+    position: relative;
+    bottom: 100px;
+    
+}
+.container div {
+    display: flex;
+    gap: 30px;
+}
+button {
+    border: none;
+    cursor: pointer;
+}
+span {
+    text-align: center;
+    min-width: 200px;
+    max-width: 250px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+button, span {
+    color: white;
+    padding: 15px 32px;
+    font-size: large;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+}
+#green {
+    background-color: #04AA6D;
+}
+#blue {
+    background-color: #008CBA;
+}
+a {
+    color: white;
+    text-decoration: none;
+}
