@@ -27,10 +27,10 @@ function GetDay(day){
         case 1:
             let tomorrow = new Date(today);
             tomorrow.setDate(today.getDate() + 1);
-            return tomorrow.toLocaleDateString();
+            return tomorrow.toLocaleDateString("hu-HU");
 
         default:
-            return today.toLocaleDateString();
+            return today.toLocaleDateString("hu-HU");
     }
 }
 
