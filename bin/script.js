@@ -27,10 +27,10 @@ function GetDay(day){
         case 1:
             let tomorrow = new Date(today);
             tomorrow.setDate(today.getDate() + 1);
-            return tomorrow.toLocaleDateString("hu-HU");
+            return CleanDate(tomorrow.toLocaleDateString("hu-HU"));
 
         default:
-            return today.toLocaleDateString("hu-HU");
+            return CleanDate(today.toLocaleDateString("hu-HU"));
     }
 }
 
@@ -41,7 +41,7 @@ function GetLink(day){
         // Ideiglenes DOM elem létrehozása a HTML-ből
         let doc = new DOMParser().parseFromString(html, "text/html");
 
-        let link = Array.from(doc.querySelectorAll("a")).find(link => link.textContent.includes(day))
+        let link = Array.from(doc.querySelectorAll("a")).find(link => CleanDate(link.textContent).includes(day))
 
         if (link){
             info.innerHTML = `<a href="${link.href}">${link.textContent}</a>`;
@@ -52,4 +52,8 @@ function GetLink(day){
         
     })
     .catch(error => info.textContent = `Hiba történt: ${error.message}`);
+}
+
+function CleanDate(date){
+    return date.replaceAll(".","").replaceAll(" ","");
 }
