@@ -47,7 +47,7 @@ function GetLink(day){
             info.innerHTML = `<a href="${link.href}">${link.textContent}</a>`;
         }
         else{
-            info.textContent = `Nincs óracsere ezen a napon: ${day}`;
+            info.textContent = `Nincs óracsere ezen a napon!`;
         }
         
     })
