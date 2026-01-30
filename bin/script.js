@@ -41,7 +41,7 @@ function GetLink(day){
         // Ideiglenes DOM elem létrehozása a HTML-ből
         let doc = new DOMParser().parseFromString(html, "text/html");
 
-        let link = Array.from(doc.querySelectorAll("a")).find(link => CleanDate(link.textContent).includes(day))
+        let link = Array.from(doc.querySelectorAll("a")).find(a => CleanDate(a.textContent).includes(day))
 
         if (link){
             info.innerHTML = `<a href="${link.href}">${link.textContent}</a>`;
