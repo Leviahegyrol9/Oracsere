@@ -35,7 +35,7 @@ function GetDay(day){
 }
 
 function GetLink(day){
-    fetch("https://corsproxy.io/?url=https://www.vasvari.hu/p/oracserek")
+    fetch("https://api.allorigins.win/raw?url=https://www.vasvari.hu/p/oracserek")
     .then(response => response.text())
     .then(html => {
         // Ideiglenes DOM elem létrehozása a HTML-ből
