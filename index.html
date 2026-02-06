@@ -8,14 +8,24 @@
     <title>Óracsere kereső</title>
 </head>
 <body>
+   <header><img src="https://szg-vasvari.cms.intezmeny.edir.hu/uploads/logo_cea7af9c46.svg" alt="Vasvári logo"></header>
     <div class="container">
         <div>
-            <button id="green" onclick="ClickEvent(0)">Ma</button>
-            <button id="blue" onclick="ClickEvent(1)">Holnap</button>
+            <button onclick="ClickBtn(0)">Ma</button>
+            <button onclick="ClickBtn(1)">Holnap</button>
         </div>
         <span></span>
+            <iframe
+                src=""
+                width="100%"
+                height="50%"
+                frameborder="0">
+            </iframe>
     </div>
 
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="bin/script.js"></script>
 </body>
 </html>

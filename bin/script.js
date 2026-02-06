@@ -1,29 +1,28 @@
-const info = document.querySelector("span");
+const result = document.querySelector("span");
 
-if (localStorage.getItem("day") && localStorage.getItem("id")){
-    const day = parseInt(localStorage.getItem("day"));
+if (localStorage.getItem("index")){
+    const index = parseInt(localStorage.getItem("index"));
 
-    GetLink(GetDay(day));
+    SetColor(index);
 
-    info.id = localStorage.getItem("id");
+    GetLink(GetDay(index));
 }
 else{
-    info.textContent = "Nincs adat!";
+    result.textContent = "Nincs adat!";
 }
 
-function ClickEvent(day){
-    day == 0 ? info.id = "green" : info.id = "blue";
+function ClickBtn(index){
+    SetColor(index);
 
-    localStorage.setItem("id", info.id);
-    localStorage.setItem("day", day)
+    localStorage.setItem("index", index);
 
-    GetLink(GetDay(day));
+    GetLink(GetDay(index));
 }
 
-function GetDay(day){
+function GetDay(index){
     let today = new Date();
 
-    switch (day){
+    switch (index){
         case 1:
             let tomorrow = new Date(today);
             tomorrow.setDate(today.getDate() + 1);
@@ -36,24 +35,40 @@ function GetDay(day){
 
 function GetLink(day){
     fetch("https://api.allorigins.win/raw?url=https://www.vasvari.hu/p/oracserek")
-    .then(response => response.text())
+    .then(response => {
+        if (!response.ok){
+            result.textContent = `Hiba: ${response.status} - ${response.statusText}`;
+            throw new Error("HTTP hiba");
+        }
+        return response.text();
+    })
     .then(html => {
         // Ideiglenes DOM elem létrehozása a HTML-ből
         let doc = new DOMParser().parseFromString(html, "text/html");
 
-        let link = Array.from(doc.querySelectorAll("a")).find(a => CleanDate(a.textContent).includes(day))
+        let link = Array.from(doc.querySelectorAll("a")).find(a => CleanDate(a.textContent).includes(20260209))
 
         if (link){
-            info.innerHTML = `<a href="${link.href}">${link.textContent}</a>`;
+            result.innerHTML = `<a href="${link.href}">${link.textContent}</a>`;
+            const table = document.querySelector("iframe");
+            table.src = link.href.replace("view?usp=sharing", "preview");
         }
         else{
-            info.textContent = `Nincs óracsere ezen a napon!`;
+            result.textContent = `Nincs óracsere ezen a napon!`;
         }
         
     })
-    .catch(error => info.textContent = `Hiba történt: ${error.message}`);
+    .catch(error => result.textContent = `Hiba történt: ${error.message}`);
 }
 
 function CleanDate(date){
     return date.replaceAll(".","").replaceAll(" ","");
+}
+
+function SetColor(index){
+    const buttons = document.querySelectorAll("button");
+
+    buttons.forEach(button => button.id = "")
+
+    buttons[index].id = "active";
 }

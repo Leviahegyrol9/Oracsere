@@ -1,28 +1,27 @@
-body {
+*{
     margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body {
     height: 100vh;
     width: 100vw;
-    display: flex;
     justify-content: center;
     align-items: center;
-    background-image: radial-gradient(at right bottom, aqua, yellow);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: hidden;
+    background-color: rgb(230, 230, 230);
 }
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 60px;
-    border: 3px solid black;
+    gap: 40px;
     border-radius: 10px;
     padding: 30px;
-    background-image: radial-gradient(at left top, aqua, yellow);
     position: relative;
     bottom: 100px;
-    
+    background-color: white;
+    width: 50vw;
+    margin: 120px auto;
 }
 .container div {
     display: flex;
@@ -31,6 +30,14 @@ body {
 button {
     border: none;
     cursor: pointer;
+    transition: 1s;
+    background-color: rgba(151, 52, 120);
+}
+@media (hover: hover) and (pointer: fine) {
+    button:hover {
+    transform: scale(1.05);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
+    }
 }
 span {
     text-align: center;
@@ -45,13 +52,18 @@ button, span {
     border-radius: 5px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
 }
-#green {
-    background-color: #04AA6D;
-}
-#blue {
-    background-color: #008CBA;
+#active {
+    background-color: white;
+    color: rgba(151, 52, 120);
 }
 a {
     color: white;
     text-decoration: none;
+}
+header{
+    text-align: center;
+    margin-top: 30px;
+}
+header > img {
+    width: 10vw;
 }
