@@ -46,12 +46,10 @@ function GetLink(day){
         // Ideiglenes DOM elem létrehozása a HTML-ből
         let doc = new DOMParser().parseFromString(html, "text/html");
 
-        let link = Array.from(doc.querySelectorAll("a")).find(a => CleanDate(a.textContent).includes(20260209))
+        let link = Array.from(doc.querySelectorAll("a")).find(a => CleanDate(a.textContent).includes(day))
 
         if (link){
             result.innerHTML = `<a href="${link.href}">${link.textContent}</a>`;
-            const table = document.querySelector("iframe");
-            table.src = link.href.replace("view?usp=sharing", "preview");
         }
         else{
             result.textContent = `Nincs óracsere ezen a napon!`;
