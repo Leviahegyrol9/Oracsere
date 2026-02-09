@@ -1,11 +1,11 @@
-const result = document.querySelector("span");
+const result = document.getElementById("info");
 
 if (localStorage.getItem("index")){
     const index = parseInt(localStorage.getItem("index"));
 
     SetColor(index);
 
-    LoadData(GetDay(index));
+    LoadData(GetDate(index));
 }
 else{
     result.textContent = "Nincs adat!";
@@ -16,10 +16,10 @@ function ClickBtn(index){
 
     localStorage.setItem("index", index);
 
-    LoadData(GetDay(index));
+    LoadData(GetDate(index));
 }
 
-function GetDay(index){
+function GetDate(index){
     let today = new Date();
 
     switch (index){
@@ -33,9 +33,10 @@ function GetDay(index){
     }
 }
 
-function LoadData(day) {
-
-    fetch(`https://oracsereapi.vercel.app/api/proxy?day=1`)
+function LoadData(date) {
+    result.textContent = "Óracsere betöltése...";
+    
+    fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}`)
         .then(res => res.json())
         .then(data => {
 
