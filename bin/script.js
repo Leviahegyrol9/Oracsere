@@ -39,7 +39,13 @@ function LoadData(date) {
     tableBody.innerHTML = "";
 
     fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}`)
-        .then(res => res.json())
+        .then(response => {
+            if (!response.ok) {
+                result.textContent = `${response.status} - ${response.statusText}`;
+                throw new Error("Response was not ok!");
+            }
+            return response.json();
+        })
         .then(data => {
             console.log(data.rows);
 
