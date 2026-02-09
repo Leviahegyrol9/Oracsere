@@ -41,6 +41,7 @@ function LoadData(date) {
     fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}`)
         .then(res => res.json())
         .then(data => {
+            console.log(data.rows);
 
             if (!data.rows || data.rows.length === 0) {
                 tableBody.innerHTML = "<tr><td>Nincs óracsere</td></tr>";
