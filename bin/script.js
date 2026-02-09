@@ -1,5 +1,3 @@
-const result = document.getElementById("info");
-
 if (localStorage.getItem("index")){
     const index = parseInt(localStorage.getItem("index"));
 
@@ -34,17 +32,19 @@ function GetDate(index){
 }
 
 function LoadData(date) {
-    result.textContent = "Óracsere betöltése...";
-    
+    const result = document.getElementById("info");
+    const tableBody = document.getElementById("table-body");
+
+    result.textContent = "Óracsere betöltése..";
+    tableBody.innerHTML = "";
+
     fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}`)
         .then(res => res.json())
         .then(data => {
 
-            const tableBody = document.getElementById("table-body");
-            tableBody.innerHTML = "";
-
             if (!data.rows || data.rows.length === 0) {
                 tableBody.innerHTML = "<tr><td>Nincs óracsere</td></tr>";
+                result.textContent = "";
                 return;
             }
 
@@ -57,9 +57,11 @@ function LoadData(date) {
                 tableBody.appendChild(tr);
             });
 
+            result.textContent = "";
+
         })
-        .catch(err => {
-            console.error(err);
+        .catch(error => {
+            result.textContent = error.message;
         });
 }
 
