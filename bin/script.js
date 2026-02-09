@@ -5,7 +5,7 @@ if (localStorage.getItem("index")){
 
     SetColor(index);
 
-    GetLink(GetDay(index));
+    LoadData(GetDay(index));
 }
 else{
     result.textContent = "Nincs adat!";
@@ -16,7 +16,7 @@ function ClickBtn(index){
 
     localStorage.setItem("index", index);
 
-    GetLink(GetDay(index));
+    LoadData(GetDay(index));
 }
 
 function GetDay(index){
@@ -33,30 +33,33 @@ function GetDay(index){
     }
 }
 
-function GetLink(day){
-    fetch("https://api.allorigins.win/raw?url=https://www.vasvari.hu/p/oracserek")
-    .then(response => {
-        if (!response.ok){
-            result.textContent = `Hiba: ${response.status} - ${response.statusText}`;
-            throw new Error("HTTP hiba");
-        }
-        return response.text();
-    })
-    .then(html => {
-        // Ideiglenes DOM elem létrehozása a HTML-ből
-        let doc = new DOMParser().parseFromString(html, "text/html");
+function LoadData(day) {
 
-        let link = Array.from(doc.querySelectorAll("a")).find(a => CleanDate(a.textContent).includes(day))
+    fetch(`https://oracsereapi.vercel.app/api/proxy?day=1`)
+        .then(res => res.json())
+        .then(data => {
 
-        if (link){
-            result.innerHTML = `<a href="${link.href}">${link.textContent}</a>`;
-        }
-        else{
-            result.textContent = `Nincs óracsere ezen a napon!`;
-        }
-        
-    })
-    .catch(error => result.textContent = `Hiba történt: ${error.message}`);
+            const tableBody = document.getElementById("table-body");
+            tableBody.innerHTML = "";
+
+            if (!data.rows || data.rows.length === 0) {
+                tableBody.innerHTML = "<tr><td>Nincs óracsere</td></tr>";
+                return;
+            }
+
+            data.rows.forEach(row => {
+                const tr = document.createElement("tr");
+                const td = document.createElement("td");
+
+                td.textContent = row;
+                tr.appendChild(td);
+                tableBody.appendChild(tr);
+            });
+
+        })
+        .catch(err => {
+            console.error(err);
+        });
 }
 
 function CleanDate(date){
