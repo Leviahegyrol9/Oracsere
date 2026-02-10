@@ -1,3 +1,4 @@
+const classP = "12.b,12.abc";
 if (localStorage.getItem("index")){
     const index = parseInt(localStorage.getItem("index"));
 
@@ -38,7 +39,7 @@ function LoadData(date) {
     result.textContent = "Óracsere betöltése..";
     tableBody.innerHTML = "";
 
-    fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}`)
+    fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}&classP=${classP}`)
         .then(response => {
             if (!response.ok) {
                 result.textContent = `${response.status} - ${response.statusText}`;
