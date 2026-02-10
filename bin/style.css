@@ -9,6 +9,7 @@ body {
     justify-content: center;
     align-items: center;
     background-color: rgb(230, 230, 230);
+    overflow: hidden;
 }
 .container {
     display: flex;
