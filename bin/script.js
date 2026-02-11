@@ -1,19 +1,39 @@
-const classP = "12.b,12.abc";
-if (localStorage.getItem("index")){
-    const index = parseInt(localStorage.getItem("index"));
+let classP = localStorage.getItem("class");
+let indexP = parseInt(localStorage.getItem("index"));
 
-    SetColor(index);
+const container = document.getElementById("container");
+const chooseClass = document.getElementById("chooseClass");
 
-    LoadData(GetDate(index));
+if (!classP){
+    chooseClass.style.display = "flex";
+    container.style.display = "none";
 }
-else{
-    result.textContent = "Nincs adat!";
+
+if (indexP){
+    SetColor(indexP);
+    LoadData(GetDate(indexP));
+}
+
+function SaveClass(){
+    const inputClass = document.querySelector("#chooseClass input").value;
+
+    if(IsClass(inputClass)){
+        localStorage.setItem("class", `${inputClass},${inputClass.split(".")[0]}.abc`);
+        classP = `${inputClass},${inputClass.split(".")[0]}.abc`;
+        
+        chooseClass.style.display = "none";
+        container.style.display = "flex";
+    }
+    else{
+        document.querySelector("#chooseClass span").textContent = `Helytelen osztály: ${inputClass}`
+    }
 }
 
 function ClickBtn(index){
     SetColor(index);
 
     localStorage.setItem("index", index);
+    indexP = index;
 
     LoadData(GetDate(index));
 }
@@ -48,8 +68,6 @@ function LoadData(date) {
             return response.json();
         })
         .then(data => {
-            console.log(data.rows);
-
             if (!data.rows || data.rows.length === 0) {
                 tableBody.innerHTML = "<tr><td>Nincs óracsere</td></tr>";
                 result.textContent = "";
@@ -78,9 +96,20 @@ function CleanDate(date){
 }
 
 function SetColor(index){
-    const buttons = document.querySelectorAll("button");
+    const buttons = document.querySelectorAll("#container > div button");
 
     buttons.forEach(button => button.id = "")
 
     buttons[index].id = "active";
+}
+
+function IsClass (value) {
+    const values = value.split(".");
+
+    return /^(9|1[0-3])$/.test(values[0]) && /^(a|b|c|ny)$/.test(values[1]);
+}
+
+function ChangeClass(){
+    localStorage.clear();
+    location.reload();
 }

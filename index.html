@@ -9,11 +9,13 @@
 </head>
 <body>
    <header><img src="https://szg-vasvari.cms.intezmeny.edir.hu/uploads/logo_cea7af9c46.svg" alt="Vasvári logo"></header>
-    <div class="container">
+    <div id="container">
         <div>
             <button onclick="ClickBtn(0)">Ma</button>
             <button onclick="ClickBtn(1)">Holnap</button>
         </div>
+
+        <button id="topLeft" onclick="ChangeClass()">Osztályváltás</button>
         <table>
             <thead>
                 <tr>
@@ -22,6 +24,12 @@
             </thead>
             <tbody id="table-body"></tbody>
     </table>
+    </div>
+
+    <div id="chooseClass">
+        <input placeholder="Írd be az osztályod..." type="text">
+        <button onclick="SaveClass()">Mentés</button>
+        <span></span>
     </div>
 
     <script src="bin/script.js"></script>
