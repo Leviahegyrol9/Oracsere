@@ -9,13 +9,13 @@ if (!classP){
     container.style.display = "none";
 }
 
-if (indexP){
+if (indexP != undefined){
     SetColor(indexP);
     LoadData(GetDate(indexP));
 }
 
 function SaveClass(){
-    const inputClass = document.querySelector("#chooseClass input").value;
+    const inputClass = document.querySelector("#chooseClass input").value.trim().replace("/", ".");
 
     if(IsClass(inputClass)){
         localStorage.setItem("class", `${inputClass},${inputClass.split(".")[0]}.abc`);
@@ -25,7 +25,7 @@ function SaveClass(){
         container.style.display = "flex";
     }
     else{
-        document.querySelector("#chooseClass span").textContent = `Helytelen osztály: ${inputClass}`
+        document.querySelector("#chooseClass span").textContent = "Helytelen osztály! pl(9.a)";
     }
 }
 
@@ -61,13 +61,16 @@ function LoadData(date) {
 
     fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}&classP=${classP}`)
         .then(response => {
-            if (!response.ok) {
+            console.log(response.status);
+            if (response.status != 200) {              
                 result.textContent = `${response.status} - ${response.statusText}`;
                 throw new Error("Response was not ok!");
             }
+
             return response.json();
         })
         .then(data => {
+
             if (!data.rows || data.rows.length === 0) {
                 tableBody.innerHTML = "<tr><td>Nincs óracsere</td></tr>";
                 result.textContent = "";

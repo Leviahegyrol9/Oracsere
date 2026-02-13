@@ -94,6 +94,7 @@ header{
         transform: scale(0.90);
     }
 }
+
 #chooseClass {
     display: none;
     flex-direction: column;
