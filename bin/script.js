@@ -56,7 +56,7 @@ function LoadData(date) {
     const result = document.getElementById("info");
     const tableBody = document.getElementById("table-body");
 
-    result.textContent = "Óracsere betöltése..";
+    result.textContent = "Óracsere betöltése...";
     tableBody.innerHTML = "";
 
     fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}&classP=${classP}`)
