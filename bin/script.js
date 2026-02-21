@@ -60,38 +60,41 @@ function LoadData(date) {
     tableBody.innerHTML = "";
 
     fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}&classP=${classP}`)
-        .then(response => {
-            console.log(response.status);
-            if (response.status != 200) {              
-                result.textContent = `${response.status} - ${response.statusText}`;
-                throw new Error("Response was not ok!");
-            }
+    .then(async response => {
 
-            return response.json();
-        })
-        .then(data => {
+        const data = await response.json();
 
-            if (!data.rows || data.rows.length === 0) {
-                tableBody.innerHTML = "<tr><td>Nincs óracsere</td></tr>";
-                result.textContent = "";
-                return;
-            }
+        if (!response.ok) {
+            result.textContent = data.error || "Ismeretlen hiba";
+            throw new Error(data.error || "Ismeretlen hiba");
+        }
 
-            data.rows.forEach(row => {
-                const tr = document.createElement("tr");
-                const td = document.createElement("td");
+        return data;
+    })
+    .then(data => {
 
-                td.textContent = row;
-                tr.appendChild(td);
-                tableBody.appendChild(tr);
-            });
-
+        if (!data.rows || data.rows.length === 0) {
+            tableBody.innerHTML = "<tr><td>Nincs óracsere</td></tr>";
             result.textContent = "";
+            return;
+        }
 
-        })
-        .catch(error => {
-            result.textContent = error.message;
+        tableBody.innerHTML = "";
+
+        data.rows.forEach(row => {
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+
+            td.textContent = row;
+            tr.appendChild(td);
+            tableBody.appendChild(tr);
         });
+
+        result.textContent = "";
+    })
+    .catch(error => {
+        result.textContent = error.message;
+    });
 }
 
 function CleanDate(date){
