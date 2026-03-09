@@ -23,3 +23,6 @@ button {
     background-color: black;
     color: white;
 }
+#chooseClass > span {
+    color: white;
+}
