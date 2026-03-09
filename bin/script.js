@@ -84,19 +84,13 @@ function LoadData(date) {
         tableBody.innerHTML = "";
 
         data.rows.forEach(row => {
-    const tr = document.createElement("tr");
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
 
-    const td1 = document.createElement("td");
-    const td2 = document.createElement("td");
-
-    td1.textContent = row.header;
-    td2.textContent = row.value;
-
-    tr.appendChild(td1);
-    tr.appendChild(td2);
-
-    tableBody.appendChild(tr);
-});
+            td.textContent = row;
+            tr.appendChild(td);
+            tableBody.appendChild(tr);
+        });
 
         result.textContent = "";
     })
