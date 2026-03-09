@@ -17,7 +17,6 @@ tbody {
     background-color: black; 
 }
 button {
-    transition: 1s;
     color: black;
 }
 #chooseClass > input {
