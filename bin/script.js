@@ -4,6 +4,8 @@ let indexP = parseInt(localStorage.getItem("index"));
 const container = document.getElementById("container");
 const chooseClass = document.getElementById("chooseClass");
 
+if (window.matchMedia("(prefers-color-scheme: dark)").matches) document.querySelector("header > img").src = "bin/dark.png";
+
 if (!classP){
     chooseClass.style.display = "flex";
     container.style.display = "none";
@@ -15,7 +17,7 @@ if (indexP != undefined){
 }
 
 function SaveClass(){
-    const inputClass = document.querySelector("#chooseClass input").value.trim().replace("/", ".");
+    const inputClass = document.querySelector("#chooseClass input").value.trim().replace("/", ".").toLowerCase();
 
     if(IsClass(inputClass)){
         localStorage.setItem("class", `${inputClass},${inputClass.split(".")[0]}.abc`);
@@ -82,13 +84,19 @@ function LoadData(date) {
         tableBody.innerHTML = "";
 
         data.rows.forEach(row => {
-            const tr = document.createElement("tr");
-            const td = document.createElement("td");
+    const tr = document.createElement("tr");
 
-            td.textContent = row;
-            tr.appendChild(td);
-            tableBody.appendChild(tr);
-        });
+    const td1 = document.createElement("td");
+    const td2 = document.createElement("td");
+
+    td1.textContent = row.header;
+    td2.textContent = row.value;
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+
+    tableBody.appendChild(tr);
+});
 
         result.textContent = "";
     })
