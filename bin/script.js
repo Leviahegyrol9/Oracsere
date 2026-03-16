@@ -94,11 +94,14 @@ function LoadData(date) {
             tableBody.appendChild(tr);
         });
 
-        tableFoot.innerHTML = `<button href=${data.href} target="_blank" id="pdfButton">PDF</button>`;
+        tableFoot.innerHTML = `<button id="pdfButton" onclick=OpenPDF(${data.href})>PDF</button>`;
     })
     .catch(error => {
         result.textContent = error.message;
     });
+}
+function OpenPDF(href){
+    window.open(href, "_blank");
 }
 
 function CleanDate(date){

@@ -34,7 +34,7 @@ body {
 button {
     border: none;
     cursor: pointer;
-    transition: 0.5s;
+    transition: 0.4s;
     background-color: rgba(151, 52, 120);
     color: white;
     padding: 12px 30px;
