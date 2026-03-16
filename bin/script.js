@@ -57,9 +57,11 @@ function GetDate(index){
 function LoadData(date) {
     const result = document.getElementById("info");
     const tableBody = document.getElementById("table-body");
+    const tableFoot = document.getElementById("table-foot");
 
     result.textContent = "Óracsere betöltése...";
     tableBody.innerHTML = "";
+    tableFoot.innerHTML = "";
 
     fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}&classP=${classP}`)
     .then(async response => {
@@ -81,7 +83,7 @@ function LoadData(date) {
             return;
         }
 
-        tableBody.innerHTML = "";
+        result.textContent = "";
 
         data.rows.forEach(row => {
             const tr = document.createElement("tr");
@@ -92,7 +94,7 @@ function LoadData(date) {
             tableBody.appendChild(tr);
         });
 
-        result.textContent = "";
+        tableFoot.innerHTML = `<button href=${data.href} target="_blank" id="pdfButton">PDF</button>`;
     })
     .catch(error => {
         result.textContent = error.message;
@@ -112,9 +114,7 @@ function SetColor(index){
 }
 
 function IsClass (value) {
-    const values = value.split(".");
-
-    return /^(9|1[0-3])$/.test(values[0]) && /^(a|b|c|ny)$/.test(values[1]);
+    return /^(9|1[0-3])\.(a|b|c|ny)$/.test(value);
 }
 
 function ChangeClass(){
