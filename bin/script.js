@@ -94,7 +94,7 @@ function LoadData(date) {
             tableBody.appendChild(tr);
         });
 
-        tableFoot.innerHTML = `<button id="pdfButton" onclick=OpenPDF(${data.href})>PDF</button>`;
+        tableFoot.innerHTML = `<button id="pdfButton" onclick="OpenPDF('${data.href}')">PDF</button>`;
     })
     .catch(error => {
         result.textContent = error.message;
