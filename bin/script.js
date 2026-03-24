@@ -31,13 +31,15 @@ function SaveClass(){
     }
 }
 
-function ClickBtn(index){
+function ClickBtn(index, button){
+    button.disabled = true;
     SetColor(index);
 
     localStorage.setItem("index", index);
     indexP = index;
 
     LoadData(GetDate(index));
+    button.disabled = false;
 }
 
 function GetDate(index){
