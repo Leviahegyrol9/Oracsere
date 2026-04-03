@@ -51,7 +51,7 @@ function ClickBtn(index){
 function GetDate(index){
     let today = new Date();
 
-    return "20260330"; //ez a tesztelésre van, ide ird be a vizsgálando datumot
+    // return "20260330"; //ez a tesztelésre van, ide ird be a vizsgálando datumot
 
     switch (index){
         case 1:
