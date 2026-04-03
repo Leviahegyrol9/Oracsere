@@ -1,4 +1,3 @@
-
 let classP = localStorage.getItem("class");
 let indexP = parseInt(localStorage.getItem("index"));
 
@@ -13,7 +12,7 @@ if (!classP){
     container.style.display = "none";
 }
 
-if (indexP != undefined && isNaN(indexP)){
+if (indexP != undefined){
     SetColor(indexP);
     LoadData(GetDate(indexP));
 }
@@ -46,6 +45,8 @@ function ClickBtn(index){
 
 function GetDate(index){
     let today = new Date();
+
+    return "20260331";
 
     switch (index){
         case 1:

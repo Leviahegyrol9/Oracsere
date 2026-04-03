@@ -1,175 +1,129 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Ez segít, hogy a padding ne tolja szét a szélességet */
     font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    min-height: 100vh;
+    height: 100vh;
     width: 100vw;
-    display: flex; /* Bekapcsolva, hogy a tartalom középen legyen */
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     background-color: rgb(230, 230, 230);
-    overflow-x: hidden; /* Csak a vízszintes görgetést tiltjuk */
-}
-
-header {
-    padding-top: 30px;
-    text-align: center;
-    width: 100%;
+    overflow-x: hidden;
 }
 
 #container {
     display: flex;
     flex-direction: column;
-    align-items: center !important;
-    gap: 20px;
+    align-items: center;
+    gap: 40px;
     border-radius: 10px;
     padding: 30px;
+    position: relative;
+    bottom: 100px;
     background-color: white;
-    margin: 40px auto;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin: 120px auto;
 }
 
 #container div {
     display: flex;
     gap: 30px;
-    margin-bottom: 10px;
 }
 
-/* --- TÁBLÁZAT JAVÍTÁSA --- */
-table {
-    border-collapse: collapse; /* Vagy 'separate' és border-spacing: 0 10px; */
-    table-layout: fixed;
-    width: 100%;
-    margin-top: 10px;
-}
-
-/* Oszlopok arányai: 1:Osztály, 2:Óra, 3:Tárgy(Nagy), 4:Terem */
-td:nth-child(1), th:nth-child(1) { width: 15%; }
-td:nth-child(2), th:nth-child(2) { width: 15%; }
-td:nth-child(3), th:nth-child(3) { width: 50%; } 
-td:nth-child(4), th:nth-child(4) { width: 20%; }
-
-td {
-    padding: 12px 5px;
-    text-align: left;
-    vertical-align: middle;
-    word-wrap: break-word; /* Ez akadályozza meg, hogy egymásba érjenek a sorok */
-    overflow-wrap: break-word;
-    border-bottom: 1px solid #eee;
-    font-size: 0.95rem;
-    line-height: 1.4;
-}
-
-th#info {
-    padding-bottom: 15px;
-    color: rgba(151, 52, 120);
-    text-align: center;
-}
-
-/* --- GOMBOK --- */
 button {
     border: none;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.4s;
     background-color: rgba(151, 52, 120);
     color: white;
     padding: 12px 30px;
     font-size: medium;
     border-radius: 5px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
 }
-
 #pdfButton {
-    display: block;
-    margin: 20px auto 0 auto !important;
-    padding: 10px 80px;
-    width: fit-content;
-    white-space: nowrap;
+    padding: 8px 100px;
 }
 
 #active {
     background-color: white;
     color: rgba(151, 52, 120);
-    outline: 2px solid rgba(151, 52, 120);
 }
 
-#topLeft {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    padding: 8px 15px;
-    z-index: 100;
+header{
+    padding-top: 30px;
+    text-align: center;
+    padding-top: 30px;
 }
 
-/* --- RESPONSIVE --- */
-
-/* Telefon */
+/* telefon */
 @media (max-width: 768px) {
     header > img {
-        width: 40vw;
+        width: 30vw;
     }
-    #container {
-        width: 95vw; /* Mobilon több hely kell a táblázatnak */
-        padding: 15px;
-        margin: 80px auto 20px auto;
-    }
-    td {
-        font-size: 0.85rem; /* Kisebb betű mobilon */
-    }
-}
-
-/* Desktop */
-@media (min-width: 769px) {
-    header > img {
-        width: 10vw;
-    }
-    #container {
+    #container{
         width: 60vw;
     }
 }
 
-/* Hover effektek */
-@media (hover: hover) and (pointer: fine) {
-    button:hover {
-        transform: scale(1.03);
-        opacity: 0.9;
+/* minden mas */
+@media (min-width: 769px) {
+    header > img {
+        width: 10vw;
     }
-    
-    #pdfButton:hover {
-        background-color: #7a1a5e;
-        color: white;
+    #container{
+        width: 30vw;
     }
 }
 
-/* --- OSZTÁLYVÁLASZTÓ --- */
+@media (hover: hover) and (pointer: fine) {
+    #container button:hover {
+        transform: scale(1.05);
+    }
+    
+    #chooseClass button:hover, #topLeft:hover, #pdfButton:hover{
+        transform: scale(1.05);
+        background-color: white;
+        color: rgba(151, 52, 120);
+    }
+
+    #chooseClass > input:active {
+        transform: scale(0.90);
+    }
+}
+
 #chooseClass {
     display: none;
     flex-direction: column;
-    padding: 40px;
     border-radius: 10px;
-    margin: 100px auto;
+    position: relative;
+    bottom: 100px;
+    margin: 120px auto;
     align-items: center;
     gap: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding-top: 50px;
 }
 
 #chooseClass > input {
-    width: 220px;
+    width: 100%;
+    max-width: 220px;
+    height: 20%;
     padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    border-radius: 12px;
+    border: none;
     outline: none;
-    text-align: center;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
 }
 
 #chooseClass > input:focus {
     border: 2px solid rgba(151, 52, 120);
 }
 
-td:last-child {
-    text-align: right;
+#topLeft {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    padding: 8px 8px;
 }
