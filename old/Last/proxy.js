@@ -112,7 +112,7 @@ function Judge(x) {
             // ]677; 690[: terem (alap)
             // ]741; 759[: terem (csere)
             // ]128; 135[: típus
-    if (x < 135 && x > 128) { //típus
+    if (x < 135 && x > 128) {
         return "típus"
     } else if (x > 140 && x < 150) {
         return "hanyadik"

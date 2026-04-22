@@ -4,7 +4,7 @@ let indexP = parseInt(localStorage.getItem("index"));
 const input = document.querySelector("#chooseClass input");
 const container = document.getElementById("container");
 const chooseClass = document.getElementById("chooseClass");
-let controller = new AbortController(); // a fetch leállításához, ha fetch közben kattintok a gombra
+let controller = new AbortController();
 
 if (window.matchMedia("(prefers-color-scheme: dark)").matches) document.querySelector("header > img").src = "bin/dark.png";
 
@@ -73,7 +73,7 @@ async function LoadData(date) {
     tableBody.innerHTML = "";
 
     fetch(`https://oracsereapi.vercel.app/api/proxy?date=${date}&classP=${classP}`, {
-        signal: controller.signal // ha többször is kattintasz a gombra, akkor is csak egyszer írja ki a dolgokat
+        signal: controller.signal
     })
     .then(async response => {
 
@@ -88,75 +88,72 @@ async function LoadData(date) {
     })
     .then(data => {
 
+        info.textContent = "";
+
         if (!data.CONTENT || data.CONTENT.length === 0) {
             tableBody.innerHTML = "<tr><td>Nincs óracsere</td></tr>";
-            info.textContent = "";
-            return;
         }
+        else{
+            try {
+                data.CONTENT.forEach(row => {
+                    let tr = document.createElement("tr");
+                    let note = row.find(item => item.includes("[jegyzet]"))?.replace(/\[.*?\]/g, "");
+                    if (note != undefined) { // ha van jegyzet
+                        let td = document.createElement("td");
+                        td.innerHTML = note;
+                        td.rowSpan = 4;
+                        td.style.border = "2px dashed red";
+                        tr.appendChild(td);
+                    } else { // ha nincs
+                        let num = row.find(item => item.includes("[hanyadik]"))?.replace(/\[.*?\]/g, "");
+                        let cl = row.find(item => item.includes("[osztály]"))?.replace(/\[.*?\]/g, "");
+                        let N_subject = row.find(item => item.includes("[A_óra]"))?.replace(/\[.*?\]/g, "");
+                        let C_subject = row.find(item => item.includes("[T_óra]"))?.replace(/\[.*?\]/g, "");
+                        let N_classr = row.find(item => item.includes("[A_terem]"))?.replace(/\[.*?\]/g, "");
+                        let C_classr = row.find(item => item.includes("[CS_terem]"))?.replace(/\[.*?\]/g, "");
+                        let tdClass = document.createElement("td");
+                        let tdNum = document.createElement("td");
+                        let tdSubject = document.createElement("td");
+                        let tdClassr = document.createElement("td");
 
-        info.textContent = "";
-        try {
-            data.CONTENT.forEach(row => {
-                let tr = document.createElement("tr");
-                let note = row.find(item => item.includes("[jegyzet]"))?.replace(/\[.*?\]/g, "");
-                if (note != undefined) { // ha van jegyzet
-                    let td = document.createElement("td");
-                    td.innerHTML = note;
-                    td.rowSpan = 4;
-                    td.style.border = "2px dashed red";
-                    tr.appendChild(td);
-                } else { // ha nincs
-                    let num = row.find(item => item.includes("[hanyadik]"))?.replace(/\[.*?\]/g, "");
-                    let cl = row.find(item => item.includes("[osztály]"))?.replace(/\[.*?\]/g, "");
-                    let N_subject = row.find(item => item.includes("[A_óra]"))?.replace(/\[.*?\]/g, "");
-                    let C_subject = row.find(item => item.includes("[T_óra]"))?.replace(/\[.*?\]/g, "");
-                    let N_classr = row.find(item => item.includes("[A_terem]"))?.replace(/\[.*?\]/g, "");
-                    let C_classr = row.find(item => item.includes("[CS_terem]"))?.replace(/\[.*?\]/g, "");
-                    let tdClass = document.createElement("td");
-                    let tdNum = document.createElement("td");
-                    let tdSubject = document.createElement("td");
-                    let tdClassr = document.createElement("td");
+                        tdClass.innerHTML = cl;
+                        tdNum.innerHTML = num+" óra";
+                        if (C_subject == "-" || C_subject?.includes("--")) {
+                            tdSubject.innerHTML = "ELMARAD";
+                            
+                        } else if (C_subject == undefined){
+                            tdSubject.innerHTML = N_subject;
+                        } else {
+                            tdSubject.innerHTML = N_subject+" → "+C_subject;
+                        }
+                        tr.appendChild(tdClass);
+                        tr.appendChild(tdNum);
+                        tr.appendChild(tdSubject);
 
-                    tdClass.innerHTML = cl;
-                    tdNum.innerHTML = num+" óra";
-                    if (C_subject == "-" || C_subject?.includes("--")) {
-                        tdSubject.innerHTML = "ELMARAD";
-                        
-                    } else if (C_subject == undefined){
-                        tdSubject.innerHTML = N_subject;
-                    } else {
-                        tdSubject.innerHTML = N_subject+" → "+C_subject;
+                        if (C_classr == undefined && N_classr != undefined) {
+                            tdClassr.innerHTML = N_classr;
+                            tr.appendChild(tdClassr);
+                        } else if (C_classr != undefined) {
+                            tdClassr.innerHTML = N_classr+" -> "+C_classr;
+                            tr.appendChild(tdClassr);
+                        } else {
+                            tdSubject.colSpan = 2;
+                        }
+
                     }
-                    tr.appendChild(tdClass);
-                    tr.appendChild(tdNum);
-                    tr.appendChild(tdSubject);
+                    tableBody.appendChild(tr);
+                });
+            } catch (e) {
+                info.textContent = "Valami gond van, használd a PDF-et!";
 
-                    if (C_classr == undefined && N_classr != undefined) {
-                        tdClassr.innerHTML = N_classr;
-                        tr.appendChild(tdClassr);
-                    } else if (C_classr != undefined) {
-                        tdClassr.innerHTML = N_classr+" → "+C_classr;
-                        tr.appendChild(tdClassr);
-                    } else {
-                        tdSubject.colSpan = 2;
-                    }
-
-                }
-                tableBody.appendChild(tr);
-            });
-        } catch (e) {
-            info.textContent = "Valami gond van, használd a PDF-et!";
-
-            if (data.href) {
                 let btn = document.createElement("button");
                 btn.id = "pdfButton";
                 btn.textContent = "PDF";
                 btn.onclick = () => OpenPDF(data.href);
                 container.appendChild(btn); 
-            }
-            console.log(e.message);
-        }
-        
+                
+                }
+            }   
     })
     .catch(error => {
         if (error != "stop") {
