@@ -13,14 +13,18 @@ if (!classP){
     container.style.display = "none";
 }
 
+if (!indexP) indexP = 0;
+
 if (indexP != undefined){
     SetColor(indexP);
     LoadData(GetDate(indexP));
 }
-
-input.addEventListener("keydown", (e) => {
+if (chooseClass.style.display == "flex"){
+    input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") SaveClass();
-});
+    });
+}
+
 
 function SaveClass(){
     inputClass = input.value.trim().replace("/", ".").toLowerCase();
@@ -67,6 +71,9 @@ function GetDate(index){
 async function LoadData(date) {
     const info = document.getElementById("info");
     const tableBody = document.getElementById("table-body");
+
+    console.log(date);
+    console.log(indexP);
 
     info.textContent = "Óracsere betöltése...";
     
