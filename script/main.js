@@ -1,44 +1,12 @@
 let classP = localStorage.getItem("class");
-let indexP = parseInt(localStorage.getItem("index"));
+let indexP = parseInt(localStorage.getItem("index")) || 0;
 
-const input = document.querySelector("#chooseClass input");
 const container = document.getElementById("container");
-const chooseClass = document.getElementById("chooseClass");
 let controller = new AbortController();
-
-if (window.matchMedia("(prefers-color-scheme: dark)").matches) document.querySelector("header > img").src = "bin/dark.png";
-
-if (!classP){
-    chooseClass.style.display = "flex";
-    container.style.display = "none";
-}
-
-if (!indexP) indexP = 0;
 
 if (indexP != undefined){
     SetColor(indexP);
     LoadData(GetDate(indexP));
-}
-if (chooseClass.style.display == "flex"){
-    input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") SaveClass();
-    });
-}
-
-
-function SaveClass(){
-    inputClass = input.value.trim().replace("/", ".").toLowerCase();
-
-    if(IsClass(inputClass)){
-        localStorage.setItem("class", `${inputClass},${inputClass.split(".")[0]}.abc`);
-        classP = `${inputClass},${inputClass.split(".")[0]}.abc`;
-        
-        chooseClass.style.display = "none";
-        container.style.display = "flex";
-    }
-    else{
-        document.querySelector("#chooseClass span").textContent = "Helytelen osztály! pl(9.a)";
-    }
 }
 
 function ClickBtn(index){
@@ -50,6 +18,14 @@ function ClickBtn(index){
     indexP = index;
 
     LoadData(GetDate(index));
+}
+
+function SetColor(index){
+    const buttons = document.querySelectorAll("#container > div button");
+
+    buttons.forEach(button => button.id = "")
+
+    buttons[index].id = "active";
 }
 
 function GetDate(index){
@@ -68,12 +44,18 @@ function GetDate(index){
     }
 }
 
-async function LoadData(date) {
-    const info = document.getElementById("info");
-    const tableBody = document.getElementById("table-body");
+function CleanDate(date) {return date.replaceAll(".","").replaceAll(" ","");}
 
-    console.log(date);
-    console.log(indexP);
+function OpenPDF(href) {window.open(href, "_blank");}
+
+function ChangeClass(){
+    localStorage.clear();
+    window.open("index.html", "_self");
+}
+
+async function LoadData(date) {
+    const info = document.querySelector("th");
+    const tableBody = document.getElementById("table-body");
 
     info.textContent = "Óracsere betöltése...";
     
@@ -168,32 +150,4 @@ async function LoadData(date) {
         }
         
     });
-}
-function OpenPDF(href){
-    window.open(href, "_blank");
-}
-
-function CleanDate(date){
-    return date.replaceAll(".","").replaceAll(" ","");
-}
-
-function SetColor(index){
-    try{
-        const buttons = document.querySelectorAll("#container > div button");
-
-        buttons.forEach(button => button.id = "")
-
-        buttons[index].id = "active";
-    }
-    catch {}
-    
-}
-
-function IsClass (value) {
-    return /^(9|1[0-3])\.(a|b|c|ny)$/.test(value);
-}
-
-function ChangeClass(){
-    localStorage.clear();
-    location.reload();
 }

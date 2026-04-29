@@ -1,0 +1,1 @@
+if (window.matchMedia("(prefers-color-scheme: dark)").matches) document.querySelector("header > img").src = "img/dark.png";

@@ -1,18 +1,19 @@
 body {
     background-color: rgb(32, 32, 32);
 }
-#container {
+#main #container {
     background-color: rgb(45, 45, 45);
 }
-#info {
+th {
     color: white;
 }
 tbody {
     color: white;
 }
 @media (hover: hover) and (pointer: fine) {
-    #chooseClass button:hover, #topLeft:hover, #pdfButton:hover {
+    #container button:hover, #topLeft:hover, #pdfButton:hover {
         background-color: rgb(0, 0, 0);
+        color: rgba(151, 52, 120);
     }
 }
 #active {
@@ -21,10 +22,10 @@ tbody {
 button {
     color: black;
 }
-#chooseClass > input {
+input {
     background-color: black;
     color: white;
 }
-#chooseClass > span {
+span {
     color: white;
 }
