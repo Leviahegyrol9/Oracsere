@@ -21,7 +21,7 @@ function ClickBtn(index){
 function SetColor(index){
     const buttons = document.querySelectorAll("#container > div button");
 
-    buttons.forEach(button => button.id = "")
+    buttons.forEach(button => button.id = "");
 
     buttons[index].id = "active";
 }
