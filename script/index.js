@@ -1,4 +1,4 @@
-let classP = localStorage.getItem("class");
+const classP = localStorage.getItem("class");
 
 const input = document.querySelector("input");
 const container = document.getElementById("container");
