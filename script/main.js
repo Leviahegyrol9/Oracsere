@@ -4,10 +4,8 @@ let indexP = parseInt(localStorage.getItem("index")) || 0;
 const container = document.getElementById("container");
 let controller = new AbortController();
 
-if (indexP != undefined){
-    SetColor(indexP);
-    LoadData(GetDate(indexP));
-}
+SetColor(indexP);
+LoadData(GetDate(indexP));
 
 function ClickBtn(index){
     controller.abort("stop");
