@@ -1,4 +1,4 @@
-let classP = localStorage.getItem("class");
+const classP = localStorage.getItem("class");
 let indexP = parseInt(localStorage.getItem("index")) || 0;
 
 const container = document.getElementById("container");
