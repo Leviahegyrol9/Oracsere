@@ -4,7 +4,7 @@ const input = document.querySelector("input");
 const container = document.getElementById("container");
 const span = document.querySelector("span");
 
-if(classP) window.open("main.html", "_self");
+if (classP) window.open("main.html", "_self");
 
 input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") SaveClass();
