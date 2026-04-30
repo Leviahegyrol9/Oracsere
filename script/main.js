@@ -10,12 +10,12 @@ LoadData(GetDate(indexP));
 function ClickBtn(index){
     controller.abort("stop");
     controller = new AbortController();
-    SetColor(index);
 
-    localStorage.setItem("index", index);
     indexP = index;
+    localStorage.setItem("index", indexP);
 
-    LoadData(GetDate(index));
+    SetColor(indexP);
+    LoadData(GetDate());
 }
 
 function SetColor(index){
@@ -26,19 +26,18 @@ function SetColor(index){
     buttons[index].id = "active";
 }
 
-function GetDate(index){
+function GetDate(){
     let today = new Date();
 
     // return "20260330"; //ez a tesztelésre van, ide ird be a vizsgálando datumot
 
-    switch (index){
+    switch (indexP){
+        case 0:
+            return CleanDate(today.toLocaleDateString("hu-HU"));
         case 1:
             let tomorrow = new Date(today);
             tomorrow.setDate(today.getDate() + 1);
             return CleanDate(tomorrow.toLocaleDateString("hu-HU"));
-
-        default:
-            return CleanDate(today.toLocaleDateString("hu-HU"));
     }
 }
 
