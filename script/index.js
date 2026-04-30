@@ -11,7 +11,7 @@ input.addEventListener("keydown", (e) => {
 });
 
 function SaveClass(){
-    inputClass = input.value.trim().replace("/", ".").toLowerCase();
+    let inputClass = input.value.trim().replace("/", ".").toLowerCase();
 
     if(IsClass(inputClass)){
         localStorage.setItem("class", `${inputClass},${inputClass.split(".")[0]}.abc`);
