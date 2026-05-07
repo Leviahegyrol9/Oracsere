@@ -4,6 +4,8 @@ let indexP = parseInt(localStorage.getItem("index")) || 0;
 const container = document.getElementById("container");
 let controller = new AbortController();
 
+if (!classP) window.open("index.html", "_self");
+
 SetColor(indexP);
 LoadData(GetDate(indexP));
 
