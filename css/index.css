@@ -39,3 +39,5 @@
 #container > input:focus {
     border: 2px solid rgba(151, 52, 120);
 }
+
+span {font-weight: bold;}

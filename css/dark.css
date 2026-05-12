@@ -11,7 +11,7 @@ tbody {
     color: white;
 }
 @media (hover: hover) and (pointer: fine) {
-    #container button:hover, #topLeft:hover, #pdfButton:hover {
+    #index > #container button:hover, #topLeft:hover, #pdfButton:hover {
         background-color: rgb(0, 0, 0);
         color: rgba(151, 52, 120);
     }
